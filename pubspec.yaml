@@ -1,7 +1,7 @@
 name: student_expense_tracker
 description: "Student Expense Tracker - offline-first budget and spending app for students."
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: ^3.6.0
