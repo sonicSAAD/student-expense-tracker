@@ -1,7 +1,7 @@
 name: student_expense_tracker
 description: "Student Expense Tracker - offline-first budget and spending app for students."
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.0.1+1
 
 environment:
   sdk: ^3.6.0
@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
   flutter_riverpod: ^2.6.1
   go_router: ^16.1.0
   hive: ^2.2.3
@@ -17,16 +16,13 @@ dependencies:
   fl_chart: ^0.71.0
   flutter_local_notifications: ^19.5.0
   path_provider: ^2.1.5
-  image_picker: ^1.2.0
   intl: ^0.20.2
   uuid: ^4.6.0
   share_plus: ^12.0.2
   csv: ^6.0.0
   pdf: ^3.11.3
   printing: ^5.14.3
-  shared_preferences: ^2.5.3
   local_auth: ^2.3.0
-  flutter_animate: ^4.5.2
   equatable: ^2.1.0
   timezone: ^0.10.1
 
