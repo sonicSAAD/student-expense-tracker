@@ -1,7 +1,6 @@
 import 'package:student_expense_tracker/domain/entities/account.dart';
-import 'package:student_expense_tracker/domain/entities/enums.dart';
-import 'package:student_expense_tracker/domain/entities/transaction.dart';
 import 'package:student_expense_tracker/features/accounts/service/account_service.dart';
+import 'package:student_expense_tracker/features/accounts/service/transfer_transactions.dart';
 import 'package:student_expense_tracker/features/transactions/service/transaction_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,40 +28,34 @@ class TransferService {
     final to = _accounts.findById(toId);
     if (from == null || to == null) return;
 
-    final fromCat = _accounts.getAll().firstOrNull;
-    if (fromCat == null) return;
+    final category = _accounts.getAll().firstOrNull;
+    if (category == null) return;
 
-    await _accounts.update(Account(
-      id: from.id,
-      name: from.name,
-      icon: from.icon,
-      balance: from.balance - amount,
-    ));
-    await _accounts.update(Account(
-      id: to.id,
-      name: to.name,
-      icon: to.icon,
-      balance: to.balance + amount,
-    ));
+    await _applyDelta(from, -amount);
+    await _applyDelta(to, amount);
 
-    final now = DateTime.now();
-    await _transactions.add(Transaction(
-      id: _uuid.v4(),
+    final entries = buildTransferTransactions(
       amount: amount,
-      type: TransactionType.expense,
-      categoryId: fromCat.id,
-      accountId: fromId,
-      note: 'Transfer to ${to.name}',
-      date: now,
-    ));
-    await _transactions.add(Transaction(
-      id: _uuid.v4(),
-      amount: amount,
-      type: TransactionType.income,
-      categoryId: fromCat.id,
-      accountId: toId,
-      note: 'Transfer from ${from.name}',
-      date: now,
-    ));
+      categoryId: category.id,
+      fromAccountId: from.id,
+      toAccountId: to.id,
+      fromName: from.name,
+      toName: to.name,
+      date: DateTime.now(),
+      expenseId: _uuid.v4(),
+      incomeId: _uuid.v4(),
+    );
+    for (final entry in entries) {
+      await _transactions.add(entry);
+    }
   }
+
+  Future<void> _applyDelta(Account account, double delta) => _accounts.update(
+        Account(
+          id: account.id,
+          name: account.name,
+          icon: account.icon,
+          balance: account.balance + delta,
+        ),
+      );
 }

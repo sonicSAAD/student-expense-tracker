@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:student_expense_tracker/domain/entities/enums.dart';
 import 'package:student_expense_tracker/presentation/features/transactions/screen/add_transaction_form_fields.dart';
-import 'package:student_expense_tracker/presentation/features/transactions/screen/add_transaction_type_selector.dart';
+import 'package:student_expense_tracker/presentation/features/transactions/screen/add_transaction_picker_fields.dart';
+import 'package:student_expense_tracker/presentation/features/transactions/screen/add_transaction_text_inputs.dart';
 import 'package:student_expense_tracker/presentation/providers/app_providers.dart';
 import 'package:student_expense_tracker/presentation/router/app_router.dart';
 
@@ -50,15 +51,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.transactionId != null ? 'Edit Transaction' : 'Add Transaction')),
       body: ListView(padding: const EdgeInsets.all(16), children: [
-        AddTransactionTypeSelector(type: _type, onChanged: (t) => setState(() => _type = t)),
+        AddTransactionPickerFields(type: _type, onTypeChanged: (t) => setState(() => _type = t), categories: cats, categoryId: _catId, onCategoryChanged: (v) => setState(() => _catId = v), accounts: accs, accountId: _accId, onAccountChanged: (v) => setState(() => _accId = v)),
         const SizedBox(height: 16),
-        TextField(controller: _amount, keyboardType: TextInputType.number, decoration: InputDecoration(labelText: 'Amount', prefixText: '${s.currencySymbol} ')),
-        const SizedBox(height: 16),
-        CategoryDropdownField(categories: cats, selectedId: _catId, onChanged: (v) => setState(() => _catId = v)),
-        const SizedBox(height: 16),
-        AccountDropdownField(accounts: accs, selectedId: _accId, onChanged: (v) => setState(() => _accId = v)),
-        const SizedBox(height: 16),
-        TextField(controller: _note, decoration: const InputDecoration(labelText: 'Note')),
+        AddTransactionTextInputs(amount: _amount, note: _note, currencySymbol: s.currencySymbol),
         const SizedBox(height: 24),
         FilledButton(onPressed: () => _submit(context), child: const Text('Save Transaction')),
       ]),

@@ -1,3 +1,4 @@
+import 'package:student_expense_tracker/core/services/box_io.dart';
 import 'package:student_expense_tracker/core/services/hive_service.dart';
 import 'package:student_expense_tracker/core/services/notification_service.dart';
 import 'package:student_expense_tracker/data/mappers/entity_mappers.dart';
@@ -15,57 +16,40 @@ class RecurringBillService {
   final HiveService _hive;
   final NotificationService _notifications;
 
-  List<RecurringBill> getAll() {
-    try {
-      return _hive
-          .getAllFromBox(_hive.recurringBillsBox())
-          .map(EntityMappers.recurringBillFromMap)
-          .toList()
-        ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
-    } catch (_) {
-      return [];
-    }
-  }
+  BoxIo get _box => BoxIo(_hive.recurringBillsBox());
 
-  RecurringBill? findById(String id) {
-    try {
-      final map = _hive.recurringBillsBox().get(id);
-      if (map == null) return null;
-      return EntityMappers.recurringBillFromMap(
-        Map<String, dynamic>.from(map as Map),
-      );
-    } catch (_) {
-      return null;
-    }
-  }
+  List<RecurringBill> getAll() =>
+      _box.readAll(EntityMappers.recurringBillFromMap)
+        ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+
+  RecurringBill? findById(String id) =>
+      _box.readById(id, EntityMappers.recurringBillFromMap);
 
   Future<void> add(RecurringBill bill) async {
-    try {
-      await _hive.putInBox(
-        _hive.recurringBillsBox(),
-        bill.id,
-        EntityMappers.recurringBillToMap(bill),
-      );
-      await _notifications.scheduleBillReminder(bill);
-    } catch (_) {}
+    await _box.put(bill.id, EntityMappers.recurringBillToMap(bill));
+    await _schedule(bill);
   }
 
   Future<void> update(RecurringBill bill) async {
+    await _cancel(bill.id);
+    await _box.put(bill.id, EntityMappers.recurringBillToMap(bill));
+    await _schedule(bill);
+  }
+
+  Future<void> delete(String id) async {
+    await _cancel(id);
+    await _box.remove(id);
+  }
+
+  Future<void> _schedule(RecurringBill bill) async {
     try {
-      await _notifications.cancelBillReminder(bill.id);
-      await _hive.putInBox(
-        _hive.recurringBillsBox(),
-        bill.id,
-        EntityMappers.recurringBillToMap(bill),
-      );
       await _notifications.scheduleBillReminder(bill);
     } catch (_) {}
   }
 
-  Future<void> delete(String id) async {
+  Future<void> _cancel(String id) async {
     try {
       await _notifications.cancelBillReminder(id);
-      await _hive.deleteFromBox(_hive.recurringBillsBox(), id);
     } catch (_) {}
   }
 }

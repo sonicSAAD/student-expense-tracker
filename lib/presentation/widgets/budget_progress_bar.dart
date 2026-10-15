@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_expense_tracker/core/utils/currency_formatter.dart';
+import 'package:student_expense_tracker/presentation/widgets/budget_progress_labels.dart';
 
 class BudgetProgressBar extends StatelessWidget {
   const BudgetProgressBar({
@@ -42,25 +43,18 @@ class BudgetProgressBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: limit > 0 ? (spent / limit).clamp(0.0, 1.0) : 0.0,
-            backgroundColor: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+            backgroundColor:
+                Theme.of(context).dividerColor.withValues(alpha: 0.1),
             valueColor: AlwaysStoppedAnimation(color),
             minHeight: 8,
           ),
         ),
         const SizedBox(height: 6),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('${pct.toStringAsFixed(0)}% used',
-                style: Theme.of(context).textTheme.bodySmall),
-            Text(
-              '${CurrencyFormatter.format(remaining, currencySymbol)} left',
-              style: TextStyle(
-                color: isOver ? const Color(0xFFB00020) : null,
-                fontSize: 12,
-              ),
-            ),
-          ],
+        BudgetProgressLabels(
+          percentUsed: pct,
+          remaining: remaining,
+          currencySymbol: currencySymbol,
+          isOver: isOver,
         ),
       ],
     );

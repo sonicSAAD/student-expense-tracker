@@ -10,6 +10,17 @@ class AppConstants {
   static const String boxSplitExpenses = 'split_expenses';
   static const String boxSettings = 'settings';
 
+  static const List<String> boxNames = [
+    boxTransactions,
+    boxCategories,
+    boxAccounts,
+    boxBudgets,
+    boxRecurringBills,
+    boxSavingsGoals,
+    boxSplitExpenses,
+    boxSettings,
+  ];
+
   static const int budgetWarningThreshold = 80;
   static const int budgetExceededThreshold = 100;
   static const int defaultBillReminderDays = 2;
