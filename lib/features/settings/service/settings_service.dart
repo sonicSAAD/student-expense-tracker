@@ -7,6 +7,11 @@ class SettingsService {
 
   final HiveService _hive;
 
+  /// Synchronous read for callers that have no provider scope, such as the
+  /// router's redirect. Falls back to the defaults if the box is unavailable.
+  static bool get isOnboardingCompleted =>
+      SettingsService(hive: HiveService.instance).get().onboardingCompleted;
+
   AppSettings get() {
     try {
       final map = _hive.settingsBox().get('app');
