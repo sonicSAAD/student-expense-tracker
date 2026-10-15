@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Foreground of the adaptive launcher icon: the triangle-and-coin mark from
+  assets/icon/app_icon.svg, scaled into the 66dp adaptive safe zone. It used to
+  be a full-bleed black rectangle, which made the launcher show a plain black
+  square on every Android 8.0+ device.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="1024dp"
-    android:height="1024dp"
-    android:viewportWidth="1024"
-    android:viewportHeight="1024">
-    <path
-        android:fillColor="#000000"
-        android:pathData="M0,0h1024v1024h-1024z"/>
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M25.66,82.34 L54,25.66 L82.34,82.34 Z"/>
+  <path
+      android:fillColor="#00000000"
+      android:strokeColor="#000000"
+      android:strokeWidth="5.31"
+      android:strokeLineCap="round"
+      android:pathData="M54,25.66 L54,82.34 M25.66,82.34 L82.34,82.34"/>
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M54,68.17 m-14.17,0 a14.17,14.17 0 1,0 28.34,0 a14.17,14.17 0 1,0 -28.34,0"/>
+  <path
+      android:fillColor="#00000000"
+      android:strokeColor="#000000"
+      android:strokeWidth="2.66"
+      android:strokeLineCap="round"
+      android:pathData="M54,61.09 L54,75.26 M46.92,68.17 L61.08,68.17"/>
 </vector>
