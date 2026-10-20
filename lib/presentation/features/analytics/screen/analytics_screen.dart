@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_expense_tracker/core/utils/date_utils.dart';
 import 'package:student_expense_tracker/presentation/features/analytics/screen/analytics_body.dart';
 import 'package:student_expense_tracker/presentation/features/analytics/screen/analytics_exporter.dart';
 import 'package:student_expense_tracker/presentation/providers/app_providers.dart';
@@ -14,11 +13,8 @@ class AnalyticsScreen extends ConsumerWidget {
     final categories = ref.watch(categoriesProvider);
     final transactions = ref.watch(transactionsProvider);
     final spending = ref.watch(categorySpendingProvider);
-    final repo = ref.watch(appFeatureProvider);
+    final series = ref.watch(monthlySeriesProvider);
 
-    final months = AppDateUtils.lastNMonths(6);
-    final monthlyExpenses = months.map((m) => repo.budgets.monthExpense(m)).toList();
-    final monthlyIncome = months.map((m) => repo.budgets.monthIncome(m)).toList();
     final totalSpent = spending.values.fold(0.0, (s, v) => s + v);
 
     return Scaffold(
@@ -47,8 +43,8 @@ class AnalyticsScreen extends ConsumerWidget {
         settings: settings,
         categories: categories,
         categorySpending: spending,
-        monthlyExpenses: monthlyExpenses,
-        monthlyIncome: monthlyIncome,
+        monthlyExpenses: series.expense,
+        monthlyIncome: series.income,
       ),
     );
   }

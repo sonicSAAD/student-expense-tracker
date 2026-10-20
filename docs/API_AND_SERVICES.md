@@ -13,7 +13,7 @@ All services are registered within `AppFeatureServices` (`lib/presentation/provi
 | `AccountService` | Account storage & balance tracking | `getAll()`, `findById()`, `add()`, `update()`, `delete()`, `getTotalBalance()` |
 | `TransferService` | Inter-account fund transfers | `transfer({fromId, toId, amount, note})` |
 | `TransactionService` | Transaction logging | `getAll()`, `findById()`, `add()`, `update()`, `delete()` |
-| `TransactionBalanceService` | Account balance adjustment on transaction events | `apply(transaction, {isNew, isDelete})`, `revert(transaction)` |
+| `TransactionBalanceService` | Account balance adjustment on transaction events | `apply(transaction)`, `revert(transaction)` |
 | `BudgetService` | Monthly category spending & limits | `getForMonth()`, `setLimit()`, `spentForCategory()`, `monthIncome()`, `monthExpense()` |
 | `BudgetRecheckService` | Recalculate and update budget limits | `recheckAfterTransaction()`, `recheckAll()` |
 | `CategoryService` | Category management | `getAll()`, `findById()`, `add()`, `update()`, `delete()` |

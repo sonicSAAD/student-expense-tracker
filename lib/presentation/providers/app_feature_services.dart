@@ -29,7 +29,7 @@ final appFeatureProvider = Provider((ref) {
   final cats = CategoryService(hive: hive);
   final accs = AccountService(hive: hive);
   final txs = TransactionService(hive: hive);
-  final bgs = BudgetService(hive: hive, transactions: txs, categories: cats);
+  final bgs = BudgetService(hive: hive, transactions: txs);
   final sets = SettingsService(hive: hive);
   final bills = RecurringBillService(hive: hive, notifications: notifs);
   final goals = SavingsGoalService(hive: hive);
@@ -44,13 +44,9 @@ final appFeatureProvider = Provider((ref) {
     savingsGoals: goals,
     splitExpenses: splits,
     backup: BackupService(hive: hive),
-    transfer: TransferService(accounts: accs, transactions: txs),
+    transfer: TransferService(accounts: accs, transactions: txs, categories: cats),
     transactionBalance: TransactionBalanceService(accounts: accs),
-    budgetRecheck: BudgetRecheckService(
-      transactions: txs,
-      budgets: bgs,
-      categories: cats,
-    ),
+    budgetRecheck: BudgetRecheckService(budgets: bgs, categories: cats),
     recurringBillPaid: RecurringBillPaidService(
       bills: bills,
       transactions: txs,

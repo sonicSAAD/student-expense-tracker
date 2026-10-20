@@ -16,17 +16,18 @@ class AnalyticsCategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final entries = categorySpending.entries.take(5).toList();
+    final entries = categorySpending.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return Column(
-      children: entries.map((e) {
+      children: entries.take(5).map((e) {
         final cat = categories.where((c) => c.id == e.key).firstOrNull;
         return ListTile(
           dense: true,
           leading: CircleAvatar(
             backgroundColor: cat != null ? Color(cat.color).withValues(alpha: 0.15) : null,
             child: Text(
-              cat?.name.substring(0, 1) ?? '?',
+              (cat != null && cat.name.isNotEmpty) ? cat.name.substring(0, 1) : '?',
               style: TextStyle(color: cat != null ? Color(cat.color) : Colors.grey),
             ),
           ),

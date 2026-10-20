@@ -25,7 +25,8 @@ class AnalyticsCategoryChart extends StatelessWidget {
       );
     }
 
-    final topEntries = categorySpending.entries.take(5).toList();
+    final topEntries = categorySpending.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return Card(
       child: Padding(
@@ -36,7 +37,7 @@ class AnalyticsCategoryChart extends StatelessWidget {
             PieChartData(
               sectionsSpace: 2,
               centerSpaceRadius: 36,
-              sections: topEntries.map((e) {
+              sections: topEntries.take(5).map((e) {
                 final cat = categories.where((c) => c.id == e.key).firstOrNull;
                 final pct = (e.value / totalSpent * 100).round();
                 return PieChartSectionData(

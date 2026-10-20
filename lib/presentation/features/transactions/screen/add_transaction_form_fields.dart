@@ -46,7 +46,9 @@ Future<void> saveTransactionAction({
     note: note,
     date: DateTime.now(),
   );
+  final previous = id == null ? null : repo.transactions.findById(id);
   await repo.transactions.add(tx);
-  await repo.transactionBalance.apply(tx, isNew: id == null);
+  if (previous != null) await repo.transactionBalance.revert(previous);
+  await repo.transactionBalance.apply(tx);
   await repo.budgetRecheck.recheckAll();
 }

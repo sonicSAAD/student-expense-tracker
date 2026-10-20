@@ -1,6 +1,7 @@
 import 'package:student_expense_tracker/domain/entities/account.dart';
 import 'package:student_expense_tracker/features/accounts/service/account_service.dart';
 import 'package:student_expense_tracker/features/accounts/service/transfer_transactions.dart';
+import 'package:student_expense_tracker/features/categories/service/category_service.dart';
 import 'package:student_expense_tracker/features/transactions/service/transaction_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,13 +9,16 @@ class TransferService {
   TransferService({
     required AccountService accounts,
     required TransactionService transactions,
+    required CategoryService categories,
     Uuid? uuid,
   })  : _accounts = accounts,
         _transactions = transactions,
+        _categories = categories,
         _uuid = uuid ?? const Uuid();
 
   final AccountService _accounts;
   final TransactionService _transactions;
+  final CategoryService _categories;
   final Uuid _uuid;
 
   Future<void> transfer({
@@ -28,7 +32,7 @@ class TransferService {
     final to = _accounts.findById(toId);
     if (from == null || to == null) return;
 
-    final category = _accounts.getAll().firstOrNull;
+    final category = transferCategory(_categories.getAll());
     if (category == null) return;
 
     await _applyDelta(from, -amount);
