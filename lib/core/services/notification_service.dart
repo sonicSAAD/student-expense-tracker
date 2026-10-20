@@ -23,13 +23,15 @@ class NotificationService {
         ),
       ),
     );
+    await _plugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
     _initialized = true;
   }
 
   Future<void> scheduleBillReminder(RecurringBill bill) async {
     if (!bill.reminderEnabled) return;
-    final reminderDate =
-        bill.dueDate.subtract(Duration(days: bill.reminderDaysBefore));
+    final reminderDate = bill.dueDate.subtract(Duration(days: bill.reminderDaysBefore));
     if (reminderDate.isBefore(DateTime.now())) return;
     final tzDate = tz.TZDateTime.from(reminderDate, tz.local);
     await _plugin.zonedSchedule(
@@ -38,7 +40,7 @@ class NotificationService {
       '${bill.name} is due on ${bill.dueDate.day}/${bill.dueDate.month}',
       tzDate,
       NotificationDetailsHelper.billDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
     );
   }
 
