@@ -24,7 +24,6 @@ class AppConstants {
   static const int budgetWarningThreshold = 80;
   static const int budgetExceededThreshold = 100;
   static const int defaultBillReminderDays = 2;
-  static const int transactionPageSize = 50;
 
   static const List<Map<String, dynamic>> defaultCategories = [
     {'name': 'Food', 'icon': 'restaurant', 'color': 0xFF1A1A1A},

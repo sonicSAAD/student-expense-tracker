@@ -15,14 +15,6 @@ class TransactionService {
       _box.readAll(EntityMappers.transactionFromMap)
         ..sort((a, b) => b.date.compareTo(a.date));
 
-  List<Transaction> getPage(int page, int pageSize) {
-    final all = getAll();
-    final start = page * pageSize;
-    if (start >= all.length) return [];
-    final end = start + pageSize;
-    return all.sublist(start, end > all.length ? all.length : end);
-  }
-
   Transaction? findById(String id) =>
       _box.readById(id, EntityMappers.transactionFromMap);
 

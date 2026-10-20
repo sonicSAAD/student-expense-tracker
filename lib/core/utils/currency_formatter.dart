@@ -6,7 +6,4 @@ class CurrencyFormatter {
     return '$symbol${formatter.format(amount)}';
   }
 
-  static String formatWithCode(double amount, String symbol, String code) {
-    return '${format(amount, symbol)} $code';
-  }
 }

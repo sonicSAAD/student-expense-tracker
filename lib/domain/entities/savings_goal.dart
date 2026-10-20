@@ -20,8 +20,6 @@ class SavingsGoal extends Equatable {
   double get percentage =>
       targetAmount > 0 ? (currentAmount / targetAmount) * 100 : 0;
 
-  bool get isCompleted => currentAmount >= targetAmount;
-
   @override
   List<Object?> get props =>
       [id, name, targetAmount, currentAmount, deadline, icon];

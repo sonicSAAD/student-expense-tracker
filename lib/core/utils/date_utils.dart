@@ -18,20 +18,8 @@ class AppDateUtils {
     return DateFormat('dd MMM yyyy').format(date);
   }
 
-  static String formatDateTime(DateTime date) {
-    return DateFormat('dd MMM yyyy, hh:mm a').format(date);
-  }
-
   static String monthKey(DateTime date) {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}';
-  }
-
-  static DateTime startOfMonth(DateTime date) {
-    return DateTime(date.year, date.month, 1);
-  }
-
-  static DateTime endOfMonth(DateTime date) {
-    return DateTime(date.year, date.month + 1, 0, 23, 59, 59);
   }
 
   static List<DateTime> lastNMonths(int n) {
