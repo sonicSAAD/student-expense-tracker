@@ -9,6 +9,11 @@ void main() {
       expect(BudgetCalculator.spentPercentage(0, 0), 0);
     });
 
+    test('clamps the spent percentage to 100', () {
+      expect(BudgetCalculator.spentPercentage(150, 100), 100);
+      expect(BudgetCalculator.spentPercentage(-10, 100), 0);
+    });
+
     test('detects budget warning at 80%', () {
       expect(BudgetCalculator.isBudgetWarning(80, 100), true);
       expect(BudgetCalculator.isBudgetWarning(79, 100), false);

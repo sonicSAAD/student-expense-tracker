@@ -5,13 +5,18 @@ import 'package:student_expense_tracker/domain/entities/recurring_bill.dart';
 class RecurringBillCalculator {
   static DateTime nextDueDate(RecurringBill bill) {
     if (bill.frequency == BillFrequency.monthly) {
-      return DateTime(
-        bill.dueDate.year,
-        bill.dueDate.month + 1,
-        bill.dueDate.day,
-      );
+      return _addOneMonth(bill.dueDate);
     }
     return bill.dueDate.add(const Duration(days: 7));
+  }
+
+  /// Advances one calendar month, clamping to the target month's last day
+  /// (Jan 31 -> Feb 28) instead of overflowing into the following month.
+  static DateTime _addOneMonth(DateTime date) {
+    final targetMonth = date.month + 1;
+    final lastDay = DateTime(date.year, targetMonth + 1, 0).day;
+    final day = date.day > lastDay ? lastDay : date.day;
+    return DateTime(date.year, targetMonth, day);
   }
 
   static DateTime reminderDate(RecurringBill bill) {

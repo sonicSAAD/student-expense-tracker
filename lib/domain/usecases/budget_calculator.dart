@@ -2,7 +2,7 @@
 class BudgetCalculator {
   static double spentPercentage(double spent, double limit) {
     if (limit <= 0) return 0;
-    return (spent / limit) * 100;
+    return ((spent / limit) * 100).clamp(0.0, 100.0);
   }
 
   static bool isBudgetWarning(double spent, double limit) {

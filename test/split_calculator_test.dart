@@ -20,5 +20,10 @@ void main() {
         70,
       );
     });
+
+    test('ignores unmatched entries instead of throwing', () {
+      expect(SplitCalculator.totalOwed([50, 30], [false]), 50);
+      expect(SplitCalculator.totalOwed([50], [false, true]), 50);
+    });
   });
 }

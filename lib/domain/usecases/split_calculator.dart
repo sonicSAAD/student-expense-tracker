@@ -11,8 +11,10 @@ class SplitCalculator {
   }
 
   static double totalOwed(List<double> amounts, List<bool> paidStatuses) {
+    final count =
+        amounts.length < paidStatuses.length ? amounts.length : paidStatuses.length;
     double owed = 0;
-    for (var i = 0; i < amounts.length; i++) {
+    for (var i = 0; i < count; i++) {
       if (!paidStatuses[i]) owed += amounts[i];
     }
     return owed;
