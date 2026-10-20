@@ -5,6 +5,7 @@ import 'package:student_expense_tracker/domain/entities/enums.dart';
 import 'package:student_expense_tracker/presentation/features/transactions/screen/add_transaction_form_fields.dart';
 import 'package:student_expense_tracker/presentation/features/transactions/screen/add_transaction_picker_fields.dart';
 import 'package:student_expense_tracker/presentation/features/transactions/screen/add_transaction_text_inputs.dart';
+import 'package:student_expense_tracker/presentation/features/transactions/screen/transaction_form_prefill.dart';
 import 'package:student_expense_tracker/presentation/providers/app_providers.dart';
 import 'package:student_expense_tracker/presentation/router/app_router.dart';
 
@@ -26,7 +27,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   @override
   void initState() {
     super.initState();
-    _type = widget.initialType == TransactionTypeArg.income ? TransactionType.income : TransactionType.expense;
+    final p = TransactionFormPrefill.of(
+      ref.read(appFeatureProvider), widget.transactionId, widget.initialType);
+    _type = p.type; _catId = p.categoryId; _accId = p.accountId; _amount.text = p.amountText; _note.text = p.note;
   }
 
   Future<void> _submit(BuildContext ctx) async {
