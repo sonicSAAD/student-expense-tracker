@@ -45,6 +45,17 @@ flutter {
     source = "../.."
 }
 
+configurations.all {
+    resolutionStrategy {
+        // The integration_test plugin pins espresso 3.2.x, where espresso-core
+        // and espresso-idling-resource both declare the androidx.test.espresso
+        // namespace. AGP 9 rejects duplicate namespaces, so force newer
+        // releases that ship unique namespaces.
+        force "androidx.test.espresso:espresso-core:3.5.1"
+        force "androidx.test.espresso:espresso-idling-resource:3.5.1"
+    }
+}
+
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.4"
 }

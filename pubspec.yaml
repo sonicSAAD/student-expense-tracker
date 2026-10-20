@@ -22,6 +22,9 @@ dependencies:
   csv: ^6.0.0
   pdf: ^3.11.3
   printing: ^5.14.3
+  # pdf constrains archive to <4.1.0, but image >=4.6 calls an archive API that
+  # only exists in newer releases. Hold image at the last compatible build.
+  image: 4.5.4
   local_auth: ^2.3.0
   equatable: ^2.1.0
   timezone: ^0.10.1
